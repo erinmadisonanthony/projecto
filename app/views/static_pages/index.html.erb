@@ -14,21 +14,6 @@
 </section>
 
 <script>
-$(function() {
-  $('#new-form').submit(function(event) {
-    event.preventDefault();
-    var textbox = $('.new-todo');
-    var payload = {
-      task: {
-        title: textbox.val()
-      }
-    };
-    $.post("/tasks", payload).success(function(data) {
-      console.log("Successful HTTP Request");
-    });
-  });
-});  
-
   $(function() {
 
     function taskHtml(task) {
@@ -61,6 +46,22 @@ $(function() {
 
       $('.toggle').change(toggleTask);
 
+    });
+
+    $('#new-form').submit(function(event) {
+      event.preventDefault();
+      var textbox = $('.new-todo');
+      var payload = {
+        task: {
+          title: textbox.val()
+        }
+      };
+      $.post("/tasks", payload).success(function(data) {
+        var htmlString = taskHtml(data);
+        var ulProjects = $('.project-list');
+        ulProjects.append(htmlString);
+        $('.toggle').click(toggleTask);
+      });
     });
 
   });
